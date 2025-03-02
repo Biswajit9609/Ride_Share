@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SH-xi | Smart Ride-Sharing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <style>
+        body{
+            background-color: #ffcc00;
+        }
+    </style>
+    <div class="text-center w-screen max-w-md bg-white p-6 rounded-lg shadow-md">
+        <!-- Illustration -->
+        <div class="mb-6">
+            <img src="/spyder_day_2/Static/Images/home.svg" alt="Ride Illustration" class="mx-auto">
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-gray-800">Hi, nice to meet you!</h1>
+        <p class="text-gray-500 mt-2">Choose your location to find available rides around you.</p>
+
+        <!-- Location Button -->
+        <button id="getLocation" class="mt-6 w-full bg-yellow-500 text-white py-3 rounded-lg flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"></path>
+            </svg>
+            Use current location
+        </button>
+
+        <!-- Manual Selection -->
+        <p class="mt-4 text-gray-600">
+            <a href="#" class="text-yellow-500 font-semibold underline">Select it manually</a>
+        </p>
+
+        <!-- Output -->
+        <p id="output" class="mt-4 text-gray-700 font-medium"></p>
+    </div>
+
+    <script>
+        document.getElementById("getLocation").addEventListener("click", function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        document.getElementById("output").innerText = `Your Location: ${lat}, ${lon}`;
+                    },
+                    (error) => {
+                        document.getElementById("output").innerText = "Location access denied.";
+                    }
+                );
+            } else {
+                document.getElementById("output").innerText = "Geolocation is not supported by this browser.";
+            }
+        });
+    </script>
+
+</body>
+</html>
