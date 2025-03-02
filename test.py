@@ -61,4 +61,4 @@ for i in range(len(valid_users)):
 # Print paired users
 print("\nEfficiently Paired Users:")
 for pair in paired_users:
-    print(f"User {pair[0][2]} ({pair[0][0]}, {pair[0][1]}) with {pair[0][3]} people <--> User {pair[1][2]} ({pair[1][0]}, {pair[1][1]}) with {pair[1][3]} people, Distance: {pair[2]:.2f} km")
+    print(f"User {pair[0][2]} ({pair[0][0]}, {pair[0][1]}) with  {pair[0][3]} people <--> User {pair[1][2]} ({pair[1][0]}, {pair[1][1]}) with {pair[1][3]} people, Distance: {pair[2]:.2f} km")
