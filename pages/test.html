@@ -30,123 +30,68 @@
 <body class="min-h-screen flex items-center justify-center p-4">
   <div class="booking-card bg-white rounded-lg overflow-hidden max-w-5xl w-full">
     <div class="flex flex-col md:flex-row">
-      <!-- Left side - Form -->
       <div class="p-8 md:w-3/5">
         <h1 class="text-2xl font-bold mb-6">Online Cab Booking</h1>
-        
-        <!-- Booking Type Selection -->
         <div class="flex space-x-4 mb-8">
-          <button class="px-4 py-1 rounded hover:bg-gray-100" id="general">General</button>
-          <button class="px-4 py-1 rounded bg-black text-white" id="business">Business</button>
-          <button class="px-4 py-1 rounded hover:bg-gray-100" id="vip">VIP</button>
+          <button class="px-4 py-1 rounded bg-black text-white" id="personal">Personal</button>
+          <button class="px-4 py-1 rounded hover:bg-gray-100" id="sharing">Sharing</button>
         </div>
-        
-        <!-- Form Fields -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Name -->
-          <div class="relative">
-            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="Mohsin" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
-          </div>
-          
-          <!-- Contact Number -->
-          <div class="relative">
-            <i class="fas fa-phone absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="contact number" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
-          </div>
-          
-          <!-- Pickup Point -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="form-fields">
           <div class="relative">
             <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="pickup point" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+            <input type="text" id="source" placeholder="Source Location" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
           </div>
-          
-          <!-- Drop-off Point -->
           <div class="relative">
             <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="drop-off point" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
-          </div>
-          
-          <!-- Cab Type -->
-          <div class="relative">
-            <i class="fas fa-taxi absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="cab type" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
-          </div>
-          
-          <!-- Time & Date -->
-          <div class="relative">
-            <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
-            <input type="text" placeholder="time & date" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+            <input type="text" id="destination" placeholder="Destination Location" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
           </div>
         </div>
-        
-        <!-- Terms and Conditions -->
-        <div class="mt-8">
-          <a href="#" class="text-sm underline text-gray-600 hover:text-black">terms and conditions</a>
-          
-          <div class="flex items-center mt-4">
-            <div class="w-6 h-6 flex items-center justify-center rounded-full border border-yellow-400 bg-yellow-100 mr-2">
-              <i class="fas fa-check text-yellow-500 text-xs"></i>
-            </div>
-            <span class="text-sm">I agree above terms and conditions</span>
-          </div>
-        </div>
-        
-        <!-- Book Now Button -->
-        <button class="mt-6 px-6 py-2 bg-black text-white font-medium uppercase">BOOK NOW</button>
+        <button class="mt-6 px-6 py-2 bg-black text-white font-medium uppercase" id="book-now">BOOK NOW</button>
       </div>
-      
-      <!-- Right side - Taxi Image -->
       <div class="bg-taxi-yellow md:w-2/5 flex items-center justify-center p-4">
-        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/81bde576826629.5c7575bc5f418-jUKE12UYUkJB3xog3RBTb88kBiGEFU.png" alt="Yellow Taxi" class="max-w-full h-auto">
+        <img src="/spyder_day_2/Static/Images/undraw_order-ride_4gaq.svg" alt="Yellow Taxi" class="max-w-full h-auto">
       </div>
     </div>
   </div>
-
   <script>
-    // Simple tab switching functionality
     document.addEventListener('DOMContentLoaded', function() {
-      const tabs = ['general', 'business', 'vip'];
+      const personalTab = document.getElementById('personal');
+      const sharingTab = document.getElementById('sharing');
+      const formFields = document.getElementById('form-fields');
       
-      tabs.forEach(tabId => {
-        const tab = document.getElementById(tabId);
-        tab.addEventListener('click', function() {
-          // Reset all tabs
-          tabs.forEach(id => {
-            document.getElementById(id).classList.remove('bg-black', 'text-white');
-            document.getElementById(id).classList.add('hover:bg-gray-100');
-          });
-          
-          // Set active tab
-          this.classList.add('bg-black', 'text-white');
-          this.classList.remove('hover:bg-gray-100');
-        });
+      function updateFormFields(tab) {
+        formFields.innerHTML = `
+          <div class="relative">
+            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" id="source" placeholder="Source Location" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          <div class="relative">
+            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" id="destination" placeholder="Destination Location" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+        `;
+        if (tab === 'sharing') {
+          formFields.innerHTML += `
+            <div class="relative">
+              <i class="fas fa-users absolute left-3 top-3 text-gray-400"></i>
+              <input type="number" id="passengers" placeholder="Number of Passengers" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+            </div>
+          `;
+        }
+      }
+      
+      personalTab.addEventListener('click', function() {
+        personalTab.classList.add('bg-black', 'text-white');
+        sharingTab.classList.remove('bg-black', 'text-white');
+        updateFormFields('personal');
       });
       
-      // Form validation (basic example)
-      const bookNowBtn = document.querySelector('button.mt-6');
-      bookNowBtn.addEventListener('click', function() {
-        const inputs = document.querySelectorAll('input');
-        let isValid = true;
-        
-        inputs.forEach(input => {
-          if (!input.value.trim()) {
-            input.classList.add('border-red-500');
-            isValid = false;
-          } else {
-            input.classList.remove('border-red-500');
-          }
-        });
-        
-        if (isValid) {
-          alert('Booking submitted successfully!');
-          // Here you would typically submit the form data to a server
-        } else {
-          alert('Please fill in all fields');
-        }
+      sharingTab.addEventListener('click', function() {
+        sharingTab.classList.add('bg-black', 'text-white');
+        personalTab.classList.remove('bg-black', 'text-white');
+        updateFormFields('sharing');
       });
     });
   </script>
 </body>
 </html>
-
