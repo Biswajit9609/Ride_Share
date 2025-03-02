@@ -1,0 +1,73 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, #1c1c1c, #3b5998);
+    color: white;
+    padding: 20px;
+}
+
+.app {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.mood-section, .task-section {
+    margin-bottom: 20px;
+}
+
+select, input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff9900;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+ul li:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.motivation {
+    margin-top: 20px;
+    font-style: italic;
+    color: #ffcc00;
+}
