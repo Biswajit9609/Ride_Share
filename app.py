@@ -70,8 +70,8 @@ def find_group_for_user(selected_user):
     return possible_group
 
 @app.route('/')
-def home():
-    return render_template('home.html')
+def landing():
+    return render_template('index.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -101,7 +101,7 @@ def signup():
 
         return redirect(url_for('send_otp'))
     
-    return render_template('signup.html')
+    return render_template('Sign_up.html')
 
 @app.route('/send_otp', methods=['GET', 'POST'])
 def send_otp():
@@ -171,6 +171,10 @@ def login():
             return 'Email does not exist.', 400
     
     return render_template('login.html')
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html')
 
 @app.route('/book', methods=['GET', 'POST'])
 def book():
