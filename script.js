@@ -1,52 +1,101 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+// Additional JavaScript functionality
 
-const quotes = {
-    happy: ["Keep smiling!", "You're doing great!", "Happiness fuels productivity!"],
-    focused: ["Stay sharp!", "One task at a time.", "Your focus determines your reality."],
-    lazy: ["A small step is still progress.", "Just start with 5 minutes.", "Success starts with action!"],
-    stressed: ["Take a deep breath.", "You got this!", "One step at a time."],
-};
-
-function addTask() {
-    let taskInput = document.getElementById("taskInput").value;
-    let mood = document.getElementById("moodSelector").value;
-    
-    if (taskInput === "") {
-        alert("Please enter a task!");
-        return;
+// Function to handle smooth reveal of elements as they come into view
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll(".reveal")
+  
+    const revealOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px",
     }
-
-    tasks.push({ task: taskInput, mood: mood });
-    saveTasks();
-    document.getElementById("taskInput").value = "";
-    displayTasks();
-    showMotivation(mood);
-}
-
-function displayTasks() {
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
-    
-    tasks.forEach((task, index) => {
-        let li = document.createElement("li");
-        li.innerHTML = `${task.task} <button onclick="removeTask(${index})">❌</button>`;
-        taskList.appendChild(li);
-    });
-}
-
-function removeTask(index) {
-    tasks.splice(index, 1);
-    saveTasks();
-    displayTasks();
-}
-
-function showMotivation(mood) {
-    let randomQuote = quotes[mood][Math.floor(Math.random() * quotes[mood].length)];
-    document.getElementById("quote").innerText = `"${randomQuote}"`;
-}
-
-function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-displayTasks();
+  
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed")
+          revealObserver.unobserve(entry.target)
+        }
+      })
+    }, revealOptions)
+  
+    revealElements.forEach((element) => {
+      revealObserver.observe(element)
+      // Add initial hidden state in CSS
+      element.classList.add("reveal-hidden")
+    })
+  }
+  
+  // Function to initialize image comparison slider
+  function initImageComparison() {
+    const comparisonContainers = document.querySelectorAll(".comparison-container")
+  
+    comparisonContainers.forEach((container) => {
+      const slider = container.querySelector(".comparison-slider")
+  
+      function moveSlider(x) {
+        let position = x - container.getBoundingClientRect().left
+        if (position < 0) position = 0
+        if (position > container.offsetWidth) position = container.offsetWidth
+  
+        const percentage = (position / container.offsetWidth) * 100
+        slider.style.left = `${percentage}%`
+  
+        const beforeImage = container.querySelector(".before-image")
+        beforeImage.style.width = `${percentage}%`
+      }
+  
+      // Mouse events
+      container.addEventListener("mousemove", (e) => {
+        moveSlider(e.pageX)
+      })
+  
+      // Touch events
+      container.addEventListener("touchmove", (e) => {
+        moveSlider(e.touches[0].pageX)
+      })
+  
+      // Initialize slider position
+      moveSlider(container.getBoundingClientRect().left + container.offsetWidth / 2)
+    })
+  }
+  
+  // Function to handle mobile navigation
+  function initMobileNav() {
+    const menuToggle = document.querySelector(".menu-toggle")
+    const mobileNav = document.querySelector(".mobile-nav")
+  
+    if (menuToggle && mobileNav) {
+      menuToggle.addEventListener("click", () => {
+        mobileNav.classList.toggle("active")
+        menuToggle.classList.toggle("active")
+      })
+  
+      // Close mobile nav when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileNav.classList.remove("active")
+          menuToggle.classList.remove("active")
+        }
+      })
+    }
+  }
+  
+  // Initialize all functions when DOM is loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    initScrollReveal()
+    initImageComparison()
+    initMobileNav()
+  
+    // Add parallax effect to hero section
+    window.addEventListener("scroll", () => {
+      const scrollPosition = window.pageYOffset
+      const parallaxElements = document.querySelectorAll(".parallax")
+  
+      parallaxElements.forEach((element) => {
+        const speed = element.getAttribute("data-speed") || 0.5
+        element.style.transform = `translateY(${scrollPosition * speed}px)`
+      })
+    })
+  })
+  
+  
