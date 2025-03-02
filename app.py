@@ -174,7 +174,7 @@ def login():
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    return render_template('test.html')
 
 @app.route('/book', methods=['GET', 'POST'])
 def book():
@@ -191,6 +191,19 @@ def book():
         user_row = user_data[user_data['email'] == email]
 
         selected = user_row[0]
+
+        possible_group = find_group_for_user(selected['users'])
+
+        if possible_group:  # Ensure the group is not empty
+            data = {
+                "name": possible_group[0]  # Assuming the first user's name is required
+            }
+        else:
+            data = {
+                "name": None  # Handle empty case
+            }
+
+        return data
 
 
 

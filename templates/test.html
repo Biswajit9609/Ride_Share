@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Cab Booking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'taxi-yellow': '#FFCC00',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFCC00;
+      background-image: radial-gradient(circle, rgba(255,220,0,0.8) 0%, rgba(255,204,0,1) 70%);
+    }
+    .booking-card {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="booking-card bg-white rounded-lg overflow-hidden max-w-5xl w-full">
+    <div class="flex flex-col md:flex-row">
+      <!-- Left side - Form -->
+      <div class="p-8 md:w-3/5">
+        <h1 class="text-2xl font-bold mb-6">Online Cab Booking</h1>
+        
+        <!-- Booking Type Selection -->
+        <div class="flex space-x-4 mb-8">
+          <button class="px-4 py-1 rounded hover:bg-gray-100" id="general">General</button>
+          <button class="px-4 py-1 rounded bg-black text-white" id="business">Business</button>
+          <button class="px-4 py-1 rounded hover:bg-gray-100" id="vip">VIP</button>
+        </div>
+        
+        <!-- Form Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Name -->
+          <div class="relative">
+            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="Mohsin" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          
+          <!-- Contact Number -->
+          <div class="relative">
+            <i class="fas fa-phone absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="contact number" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          
+          <!-- Pickup Point -->
+          <div class="relative">
+            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="pickup point" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          
+          <!-- Drop-off Point -->
+          <div class="relative">
+            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="drop-off point" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          
+          <!-- Cab Type -->
+          <div class="relative">
+            <i class="fas fa-taxi absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="cab type" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+          
+          <!-- Time & Date -->
+          <div class="relative">
+            <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="time & date" class="w-full pl-10 pr-3 py-2 border-b border-gray-300 focus:outline-none focus:border-black">
+          </div>
+        </div>
+        
+        <!-- Terms and Conditions -->
+        <div class="mt-8">
+          <a href="#" class="text-sm underline text-gray-600 hover:text-black">terms and conditions</a>
+          
+          <div class="flex items-center mt-4">
+            <div class="w-6 h-6 flex items-center justify-center rounded-full border border-yellow-400 bg-yellow-100 mr-2">
+              <i class="fas fa-check text-yellow-500 text-xs"></i>
+            </div>
+            <span class="text-sm">I agree above terms and conditions</span>
+          </div>
+        </div>
+        
+        <!-- Book Now Button -->
+        <button class="mt-6 px-6 py-2 bg-black text-white font-medium uppercase">BOOK NOW</button>
+      </div>
+      
+      <!-- Right side - Taxi Image -->
+      <div class="bg-taxi-yellow md:w-2/5 flex items-center justify-center p-4">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/81bde576826629.5c7575bc5f418-jUKE12UYUkJB3xog3RBTb88kBiGEFU.png" alt="Yellow Taxi" class="max-w-full h-auto">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = ['general', 'business', 'vip'];
+      
+      tabs.forEach(tabId => {
+        const tab = document.getElementById(tabId);
+        tab.addEventListener('click', function() {
+          // Reset all tabs
+          tabs.forEach(id => {
+            document.getElementById(id).classList.remove('bg-black', 'text-white');
+            document.getElementById(id).classList.add('hover:bg-gray-100');
+          });
+          
+          // Set active tab
+          this.classList.add('bg-black', 'text-white');
+          this.classList.remove('hover:bg-gray-100');
+        });
+      });
+      
+      // Form validation (basic example)
+      const bookNowBtn = document.querySelector('button.mt-6');
+      bookNowBtn.addEventListener('click', function() {
+        const inputs = document.querySelectorAll('input');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+          if (!input.value.trim()) {
+            input.classList.add('border-red-500');
+            isValid = false;
+          } else {
+            input.classList.remove('border-red-500');
+          }
+        });
+        
+        if (isValid) {
+          alert('Booking submitted successfully!');
+          // Here you would typically submit the form data to a server
+        } else {
+          alert('Please fill in all fields');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
