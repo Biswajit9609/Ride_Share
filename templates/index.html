@@ -49,8 +49,8 @@
             <a href="#features" class="hover:text-white transition duration-300">Features</a>
             <a href="#how-it-works" class="hover:text-white transition duration-300">How It Works</a>
             <a href="#download" class="hover:text-white transition duration-300">Download</a>
-            <a href="/spyder_day_2/pages/Sign_up.html" class="hover:text-white transition duration-300">Sign Up</a>
-            <a href="/spyder_day_2/pages/login.html" class="hover:text-white transition duration-300">Login</a>
+            <a href="/signup" class="hover:text-white transition duration-300">Sign Up</a>
+            <a href="/login" class="hover:text-white transition duration-300">Login</a>
         </nav>
         <button class="md:hidden text-2xl">☰</button>
     </header>
@@ -66,7 +66,7 @@
                 </button>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <img src="/spyder_day_2/Static/Images/png.png" alt="SH-xi App" class="rounded-lg animate-float h-150">
+                <img src="{{ url_for('static', filename='Images/png.png') }}" alt="SH-xi App" class="rounded-lg animate-float h-150">
             </div>
         </div>
     </section>

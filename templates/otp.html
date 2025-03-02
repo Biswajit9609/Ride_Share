@@ -79,7 +79,7 @@
         <div class="forgot-container position-relative p-4 p-md-5">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <img src="/spyder_day_2/Static/Images/Two factor authentication-rafiki (1).svg" 
+                    <img src="{{ url_for('static', filename='Images/Two factor authentication-rafiki (1).svg') }}" 
                          alt="Forgot Password Illustration" 
                          class="illustration img-fluid mb-4 mb-md-0">
                 </div>
@@ -88,7 +88,7 @@
                         <h1 class="h2 mb-4 fw-bold">Enter OTP Code</h1>
                         <p class="text-muted mb-4">Please enter the 6-digit code sent to your email address example@email.com</p>
                         
-                        <form id="otpForm" action="/reset_password" method="POST">
+                        <form id="otpForm" action="/home" method="POST">
                             <div class="mb-4">
                                 <input type="text" 
                                        class="form-control" 
