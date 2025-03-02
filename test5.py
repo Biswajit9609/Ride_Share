@@ -61,3 +61,4 @@ def find_group_for_user(selected_user):
 # Example: Find group for 'user1'
 selected_user = "user4"
 group = find_group_for_user(selected_user)
+print(group)
