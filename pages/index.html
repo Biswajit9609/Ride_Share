@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SH-xi - Smart Ride-Sharing Made Easy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'shxi-yellow': '#FFCC00',
+                        'shxi-dark': '#1A1A1A',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</head>
+<body class="bg-white text-shxi-dark">
+    <!-- Header -->
+    <header class="bg-shxi-yellow py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold">SH-xi</h1>
+        </div>
+        <nav class="hidden md:flex space-x-6">
+            <a href="#features" class="hover:text-white transition duration-300">Features</a>
+            <a href="#how-it-works" class="hover:text-white transition duration-300">How It Works</a>
+            <a href="#download" class="hover:text-white transition duration-300">Download</a>
+            <a href="/spyder_day_2/pages/Sign_up.html" class="hover:text-white transition duration-300">Sign Up</a>
+            <a href="/spyder_day_2/pages/login.html" class="hover:text-white transition duration-300">Login</a>
+        </nav>
+        <button class="md:hidden text-2xl">☰</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-shxi-yellow py-20 px-6 md:px-12">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-pulse">Smart Ride-Sharing Made Easy</h2>
+                <p class="text-xl mb-8">Connect with nearby riders, share your journey, and save on travel costs with SH-xi.</p>
+                <button class="bg-shxi-dark text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 transform hover:scale-105">
+                    Get Started
+                </button>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="/spyder_day_2/Static/Images/png.png" alt="SH-xi App" class="rounded-lg animate-float h-150">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6 md:px-12 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Why Choose SH-xi?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-100 p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300">
+                    <h3 class="text-xl font-semibold mb-4">Location-Based Matching</h3>
+                    <p>Connect with riders within a 5 km radius heading to similar destinations.</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300">
+                    <h3 class="text-xl font-semibold mb-4">Automatic Booking</h3>
+                    <p>Our smart system books shared rides automatically, saving you time and effort.</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300">
+                    <h3 class="text-xl font-semibold mb-4">Cost Reduction</h3>
+                    <p>Share your ride and split the fare, significantly reducing your travel expenses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 px-6 md:px-12 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">How SH-xi Works</h2>
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <ol class="list-decimal list-inside space-y-6">
+                        <li class="text-lg">Enter your destination</li>
+                        <li class="text-lg">We find nearby riders going your way</li>
+                        <li class="text-lg">Automatically book a shared ride</li>
+                        <li class="text-lg">Enjoy your journey and split the fare</li>
+                    </ol>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="/placeholder.svg?height=400&width=400" alt="SH-xi Process" class="rounded-lg shadow-xl animate-pulse">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-6 md:px-12 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">What Our Users Say</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-shxi-yellow p-6 rounded-lg shadow-md">
+                    <p class="mb-4">"SH-xi has revolutionized my daily commute. I've saved money and made new friends!"</p>
+                    <p class="font-semibold">- Sarah K.</p>
+                </div>
+                <div class="bg-shxi-yellow p-6 rounded-lg shadow-md">
+                    <p class="mb-4">"The automatic matching system is brilliant. It's so easy to use and always finds great co-riders."</p>
+                    <p class="font-semibold">- Mike T.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-20 px-6 md:px-12 bg-shxi-dark text-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-8">Ready to Start Sharing?</h2>
+            <p class="text-xl mb-12">Download the SH-xi app now and join the smart ride-sharing revolution!</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-shxi-yellow text-shxi-dark py-3 px-8 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 transform hover:scale-105">
+                    App Store
+                </button>
+                <button class="bg-shxi-yellow text-shxi-dark py-3 px-8 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 transform hover:scale-105">
+                    Google Play
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-8 px-6 md:px-12">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; 2025 SH-xi. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-shxi-yellow transition duration-300">Privacy Policy</a>
+                <a href="#" class="hover:text-shxi-yellow transition duration-300">Terms of Service</a>
+                <a href="#" class="hover:text-shxi-yellow transition duration-300">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mobile menu toggle
+        const menuButton = document.querySelector('button');
+        const nav = document.querySelector('nav');
+        menuButton.addEventListener('click', () => {
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('top-16');
+            nav.classList.toggle('right-0');
+            nav.classList.toggle('bg-shxi-yellow');
+            nav.classList.toggle('p-4');
+            nav.classList.toggle('rounded-bl-lg');
+        });
+    </script>
+</body>
+</html>
