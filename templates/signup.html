@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - RideShare Taxi Booking</title>
+    <title>Sign Up - RideShare Taxi Booking</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,6 +20,7 @@
                         'slide-in': 'slideIn 0.5s ease-out forwards',
                         'fade-in': 'fadeIn 0.8s ease-out forwards',
                         'scale-in': 'scaleIn 0.5s ease-out forwards',
+                        'pulse-slow': 'pulse 3s infinite',
                     },
                     keyframes: {
                         float: {
@@ -46,6 +47,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        .staggered-fade-in > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .staggered-fade-in.animate > *:nth-child(1) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.1s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(2) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.2s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(3) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.3s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(4) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.4s; 
+        }
+        
         .hover-lift {
             transition: transform 0.3s ease;
         }
@@ -106,6 +134,23 @@
             100% { transform: scale(1.1); opacity: 0; }
         }
         
+        .parallax-container {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-position: center;
+            background-size: cover;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
         /* Animated background */
         .animated-bg {
             background: linear-gradient(45deg, #1A1A1A, #333333);
@@ -119,14 +164,15 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Floating elements */
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
+        /* Floating taxi animation */
+        .taxi-float {
+            animation: taxi-float 4s ease-in-out infinite;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        @keyframes taxi-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(10px) rotate(5deg); }
         }
     </style>
 </head>
@@ -148,7 +194,7 @@
             </nav>
             <div class="flex items-center space-x-4 animate__animated animate__fadeInRight">
                 <a href="login.html" class="hover:text-primary transition hover-lift inline-block">Login</a>
-                <a href="signup.html" class="bg-primary hover:bg-primaryDark text-secondary px-4 py-2 rounded-full font-  class="bg-primary hover:bg-primaryDark text-secondary px-4 py-2 rounded-full font-medium transition shake-animation">Sign Up</a>
+                <a href="signup.html" class="bg-primary hover:bg-primaryDark text-secondary px-4 py-2 rounded-full font-medium transition shake-animation">Sign Up</a>
             </div>
             <button class="md:hidden text-white animate__animated animate__fadeIn" id="mobile-menu-button">
                 <i class="fas fa-bars text-2xl"></i>
@@ -166,45 +212,52 @@
     </header>
 
     <!-- Main Content -->
-    <main class="py-16">
-        <div class="container mx-auto px-4 max-w-md">
-            <div class="bg-white rounded-lg shadow-lg p-8 animate__animated animate__fadeInUp">
-                <div class="text-center mb-8">
-                    <i class="fas fa-taxi text-primary text-5xl mb-4 pulse-icon"></i>
-                    <h2 class="text-3xl font-bold text-secondary">Welcome Back</h2>
-                    <p class="text-gray-600 mt-2">Log in to your RideShare account</p>
-                </div>
+    <main class="py-5">
+        <div class="container mx-auto px-20 flex flex-col md:flex-row items-stretch">
+            <!-- Left Side - Form -->
+            <div class="md:w-1/2 bg-white rounded-lg shadow-lg p-8 md:mr-6 mb-8 md:mb-0 animate__animated animate__fadeInLeft">
+                <h2 class="text-3xl font-bold mb-6 text-secondary">Create Your Account</h2>
+                <p class="text-gray-600 mb-8">Join thousands of satisfied riders and start your journey with RideShare today.</p>
                 
-                <form id="login-form">
+                <form id="signup-form" class="staggered-fade-in animate">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2" for="fullname">Full Name</label>
+                        <input type="text" id="fullname" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter your full name">
+                    </div>
+                    
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2" for="email">Email Address</label>
                         <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter your email">
                     </div>
                     
                     <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="password">Password</label>
-                        <input type="password" id="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter your password">
+                        <label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter your phone number">
                     </div>
                     
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2" for="password">Password</label>
+                        <input type="password" id="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Create a password">
+                    </div>
+                    
+                    <div class="mb-8">
                         <label class="flex items-center">
                             <input type="checkbox" class="form-checkbox h-5 w-5 text-primary">
-                            <span class="ml-2 text-gray-700">Remember me</span>
+                            <span class="ml-2 text-gray-700">I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a></span>
                         </label>
-                        <a href="#" class="text-primary hover:underline">Forgot password?</a>
                     </div>
                     
                     <button type="submit" class="w-full bg-primary hover:bg-primaryDark text-secondary py-3 rounded-full font-medium transition btn-pulse">
-                        Log In
+                        Create Account
                     </button>
                     
                     <div class="mt-6 text-center">
-                        <p class="text-gray-600">Don't have an account? <a href="signup.html" class="text-primary hover:underline">Sign up</a></p>
+                        <p class="text-gray-600">Already have an account? <a href="login.html" class="text-primary hover:underline">Log in</a></p>
                     </div>
                 </form>
                 
                 <div class="mt-8 pt-6 border-t border-gray-200">
-                    <p class="text-center text-gray-600 mb-4">Or log in with</p>
+                    <p class="text-center text-gray-600 mb-4">Or sign up with</p>
                     <div class="flex justify-center space-x-4">
                         <a href="#" class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 transition hover-lift">
                             <i class="fab fa-google text-red-500"></i>
@@ -219,14 +272,69 @@
                 </div>
             </div>
             
-            <div class="mt-8 text-center">
-                <p class="text-gray-600">Need help? <a href="contact.html" class="text-primary hover:underline">Contact Support</a></p>
+            <!-- Right Side - Benefits -->
+            <div class="md:w-1/2 animated-bg rounded-lg shadow-lg p-8 text-white relative overflow-hidden animate__animated animate__fadeInRight">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold mb-6">Benefits of Joining <span class="text-primary">RideShare</span></h2>
+                    
+                    <ul class="space-y-6 mb-8">
+                        <li class="flex items-start opacity-0" id="benefit-1">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-star text-secondary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-1">Exclusive Discounts</h3>
+                                <p class="text-gray-300">Get special rates and promotions available only to registered members.</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start opacity-0" id="benefit-2">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-clock text-secondary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-1">Faster Bookings</h3>
+                                <p class="text-gray-300">Save your favorite locations and payment methods for one-click bookings.</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start opacity-0" id="benefit-3">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-gift text-secondary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-1">Loyalty Rewards</h3>
+                                <p class="text-gray-300">Earn points with every ride and redeem them for free trips and perks.</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start opacity-0" id="benefit-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-shield-alt text-secondary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-1">Priority Support</h3>
+                                <p class="text-gray-300">Get dedicated customer service and priority assistance when you need it.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 text-center">
+                        <div class="taxi-float inline-block">
+                            <i class="fas fa-taxi text-primary text-6xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-10 rounded-full -mr-32 -mt-32"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-primary opacity-10 rounded-full -ml-32 -mb-32"></div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-secondary text-white pt-12 pb-6 mt-auto">
+    <footer class="bg-secondary text-white pt-12 pb-6 mt-12">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div class="animate__animated animate__fadeInUp">
@@ -298,22 +406,62 @@
         });
         
         // Form validation
-        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
         
-        loginForm.addEventListener('submit', (e) => {
+        signupForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
+            const fullname = document.getElementById('fullname').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             
-            if (!email || !password) {
+            if (!fullname || !email || !phone || !password) {
                 alert('Please fill in all required fields');
                 return;
             }
             
             // Here you would normally send the data to your backend
-            alert('Login successful! Redirecting to dashboard...');
+            alert('Account created successfully! Redirecting to dashboard...');
             window.location.href = 'dashboard.html';
+        });
+        
+        // Animate benefits on scroll
+        function animateBenefits() {
+            const benefits = [
+                document.getElementById('benefit-1'),
+                document.getElementById('benefit-2'),
+                document.getElementById('benefit-3'),
+                document.getElementById('benefit-4')
+            ];
+            
+            benefits.forEach((benefit, index) => {
+                if (isElementInViewport(benefit) && benefit.style.opacity !== '1') {
+                    benefit.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    benefit.style.opacity = '1';
+                    benefit.style.transform = 'translateX(0)';
+                    benefit.style.transitionDelay = `${0.2 * (index + 1)}s`;
+                }
+            });
+        }
+        
+        // Check if element is in viewport
+        function isElementInViewport(el) {
+            if (!el) return false;
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                rect.bottom >= 0
+            );
+        }
+        
+        // Initialize animations
+        window.addEventListener('load', () => {
+            animateBenefits();
+        });
+        
+        window.addEventListener('scroll', () => {
+            animateBenefits();
         });
     </script>
 </body>

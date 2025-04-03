@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Ride - RideShare Taxi Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFCC00',
+                        primaryDark: '#E6B800',
+                        secondary: '#1A1A1A',
+                        secondaryLight: '#333333',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-in': 'slideIn 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'scale-in': 'scaleIn 0.5s ease-out forwards',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100%)', opacity: 0 },
+                            '100%': { transform: 'translateX(0)', opacity: 1 },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0 },
+                            '100%': { transform: 'scale(1)', opacity: 1 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .staggered-fade-in > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .staggered-fade-in.animate > *:nth-child(1) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.1s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(2) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.2s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(3) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.3s; 
+        }
+        .staggered-fade-in.animate > *:nth-child(4) { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.4s; 
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pulse-icon {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .shake-animation:hover {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .input-animation {
+            transition: all 0.3s ease;
+        }
+        
+        .input-animation:focus {
+            transform: scale(1.02);
+        }
+        
+        .btn-pulse {
+            position: relative;
+        }
+        
+        .btn-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px;
+            background-color: currentColor;
+            opacity: 0.3;
+            z-index: -1;
+            animation: btn-pulse 1.5s infinite;
+        }
+        
+        @keyframes btn-pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            70% { transform: scale(1.1); opacity: 0; }
+            100% { transform: scale(1.1); opacity: 0; }
+        }
+        
+        /* Animated background */
+        .animated-bg {
+            background: linear-gradient(45deg, #1A1A1A, #333333);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Map animation */
+        .map-pin {
+            animation: map-pin-bounce 2s infinite;
+        }
+        
+        @keyframes map-pin-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Car animation */
+        .car-animation {
+            animation: car-drive 10s linear infinite;
+        }
+        
+        @keyframes car-drive {
+            0% { transform: translateX(-100%) rotate(0deg); }
+            50% { transform: translateX(100%) rotate(0deg); }
+            51% { transform: translateX(100%) rotate(180deg); }
+            100% { transform: translateX(-100%) rotate(180deg); }
+        }
+        
+        /* Tab animation */
+        .tab-indicator {
+            transition: transform 0.3s ease;
+        }
+        
+        /* Ride option animation */
+        .ride-option {
+            transition: all 0.3s ease;
+        }
+        
+        .ride-option:hover {
+            transform: translateY(-5px);
+        }
+        
+        .ride-option.selected {
+            border-color: #FFCC00;
+            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-secondary text-white">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center animate__animated animate__fadeInLeft">
+                <i class="fas fa-taxi text-primary text-3xl mr-2 pulse-icon"></i>
+                <h1 class="text-2xl font-bold">RideShare</h1>
+            </a>
+            <nav class="hidden md:block animate__animated animate__fadeInDown">
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="hover:text-primary transition hover-lift inline-block">Home</a></li>
+                    <li><a href="booking.html" class="hover:text-primary transition hover-lift inline-block">Book a Ride</a></li>
+                    <li><a href="about.html" class="hover:text-primary transition hover-lift inline-block">About</a></li>
+                    <li><a href="contact.html" class="hover:text-primary transition hover-lift inline-block">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center space-x-4 animate__animated animate__fadeInRight">
+                <a href="login.html" class="hover:text-primary transition hover-lift inline-block">Login</a>
+                <a href="signup.html" class="bg-primary hover:bg-primaryDark text-secondary px-4 py-2 rounded-full font-medium transition shake-animation">Sign Up</a>
+            </div>
+            <button class="md:hidden text-white animate__animated animate__fadeIn" id="mobile-menu-button">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-secondaryLight">
+            <ul class="container mx-auto px-4 py-2 space-y-2">
+                <li><a href="index.html" class="block py-2 hover:text-primary transition">Home</a></li>
+                <li><a href="booking.html" class="block py-2 hover:text-primary transition">Book a Ride</a></li>
+                <li><a href="about.html" class="block py-2 hover:text-primary transition">About</a></li>
+                <li><a href="contact.html" class="block py-2 hover:text-primary transition">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="bg-secondary text-white py-8">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold animate__animated animate__fadeInDown">Book Your Ride</h1>
+            <p class="mt-2 animate__animated animate__fadeIn animate__delay-1s">Choose between normal taxi or shared ride options</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Booking Form -->
+                <div class="lg:w-2/3 animate__animated animate__fadeInLeft">
+                    <!-- Booking Tabs -->
+                    <div class="bg-white rounded-t-lg shadow-md p-4 flex relative">
+                        <button id="tab-normal" class="flex-1 py-3 font-medium text-center relative z-10 text-secondary">Normal Taxi</button>
+                        <button id="tab-shared" class="flex-1 py-3 font-medium text-center relative z-10 text-gray-500">Shared Taxi</button>
+                        <div class="tab-indicator absolute bottom-0 left-0 h-1 bg-primary w-1/2 transition-transform"></div>
+                    </div>
+                    
+                    <!-- Booking Form -->
+                    <div class="bg-white rounded-b-lg shadow-md p-6">
+                        <form id="booking-form">
+                            <div class="mb-6 staggered-fade-in animate">
+                                <label class="block text-gray-700 mb-2" for="pickup">Pickup Location</label>
+                                <div class="relative">
+                                    <input type="text" id="pickup" class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter pickup address">
+                                    <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6 staggered-fade-in animate">
+                                <label class="block text-gray-700 mb-2" for="destination">Destination</label>
+                                <div class="relative">
+                                    <input type="text" id="destination" class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter destination address">
+                                    <i class="fas fa-flag-checkered absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6 staggered-fade-in animate">
+                                <label class="block text-gray-700 mb-2" for="time">Pickup Time</label>
+                                <div class="relative">
+                                    <input type="datetime-local" id="time" class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation">
+                                    <i class="fas fa-clock absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Shared Ride Options (Hidden by default) -->
+                            <div id="shared-options" class="mb-6 hidden staggered-fade-in">
+                                <label class="block text-gray-700 mb-2">Number of Passengers</label>
+                                <div class="flex space-x-2">
+                                    <button type="button" class="passenger-btn px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary hover-lift" data-value="1">1</button>
+                                    <button type="button" class="passenger-btn px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary hover-lift" data-value="2">2</button>
+                                    <button type="button" class="passenger-btn px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary hover-lift" data-value="3">3</button>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2">Share your ride with others going in the same direction and save up to 50%</p>
+                            </div>
+                            
+                            <!-- Vehicle Options -->
+                            <div class="mb-6 staggered-fade-in animate">
+                                <label class="block text-gray-700 mb-2">Vehicle Type</label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="ride-option border border-gray-300 rounded-lg p-4 cursor-pointer selected">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-car text-primary text-xl mr-2"></i>
+                                            <h4 class="font-medium">Standard</h4>
+                                        </div>
+                                        <p class="text-sm text-gray-500">Comfortable sedan for up to 4 people</p>
+                                        <p class="text-sm font-medium mt-2">$2.50/mile</p>
+                                    </div>
+                                    
+                                    <div class="ride-option border border-gray-300 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-car-side text-primary text-xl mr-2"></i>
+                                            <h4 class="font-medium">Premium</h4>
+                                        </div>
+                                        <p class="text-sm text-gray-500">Luxury vehicle for up to 4 people</p>
+                                        <p class="text-sm font-medium mt-2">$3.50/mile</p>
+                                    </div>
+                                    
+                                    <div class="ride-option border border-gray-300 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-shuttle-van text-primary text-xl mr-2"></i>
+                                            <h4 class="font-medium">SUV</h4>
+                                        </div>
+                                        <p class="text-sm text-gray-500">Spacious vehicle for up to 6 people</p>
+                                        <p class="text-sm font-medium mt-2">$4.00/mile</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Payment Method -->
+                            <div class="mb-8 staggered-fade-in animate">
+                                <label class="block text-gray-700 mb-2">Payment Method</label>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="payment" value="card" class="form-radio h-5 w-5 text-primary" checked>
+                                        <span class="ml-2 text-gray-700">Credit Card</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="payment" value="cash" class="form-radio h-5 w-5 text-primary">
+                                        <span class="ml-2 text-gray-700">Cash</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="payment" value="wallet" class="form-radio h-5 w-5 text-primary">
+                                        <span class="ml-2 text-gray-700">Wallet</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-primaryDark text-secondary py-3 rounded-full font-medium transition btn-pulse">
+                                Book Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Map and Fare Estimate -->
+                <div class="lg:w-1/3 animate__animated animate__fadeInRight">
+                    <!-- Map Preview -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Route Preview</h3>
+                        <div class="bg-gray-200 rounded-lg h-64 relative overflow-hidden">
+                            <!-- Placeholder for map -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <p class="text-gray-500">Enter locations to see route</p>
+                            </div>
+                            
+                            <!-- Map pins (shown when locations are entered) -->
+                            <div class="hidden" id="map-content">
+                                <div class="absolute top-1/4 left-1/4 text-red-500 map-pin">
+                                    <i class="fas fa-map-marker-alt text-2xl"></i>
+                                </div>
+                                <div class="absolute bottom-1/4 right-1/4 text-green-500 map-pin">
+                                    <i class="fas fa-flag-checkered text-2xl"></i>
+                                </div>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 car-animation">
+                                    <i class="fas fa-car text-primary text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fare Estimate -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold mb-4">Fare Estimate</h3>
+                        <div id="fare-details" class="hidden">
+                            <div class="space-y-3 mb-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Base fare:</span>
+                                    <span class="font-medium" id="base-fare">$5.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Distance (est.):</span>
+                                    <span class="font-medium" id="distance-fare">$12.50</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Time (est.):</span>
+                                    <span class="font-medium" id="time-fare">$3.75</span>
+                                </div>
+                                <div id="discount-row" class="flex justify-between hidden">
+                                    <span class="text-gray-600">Shared ride discount:</span>
+                                    <span class="font-medium text-green-500" id="discount">-$10.63</span>
+                                </div>
+                                <div class="border-t border-gray-200 pt-3 flex justify-between">
+                                    <span class="font-semibold">Total:</span>
+                                    <span class="font-bold text-lg" id="total-fare">$21.25</span>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center py-4" id="fare-placeholder">
+                                <p class="text-gray-500">Enter pickup and destination to see fare estimate</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code -->
+                        <div class="mt-4">
+                            <label class="block text-gray-700 mb-2" for="promo">Promo Code</label>
+                            <div class="flex">
+                                <input type="text" id="promo" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary input-animation" placeholder="Enter promo code">
+                                <button type="button" class="bg-primary hover:bg-primaryDark text-secondary px-4 py-2 rounded-r-lg font-medium transition">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Features -->
+            <div class="mt-12 grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md hover-lift opacity-0" id="feature-1">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4 animate-pulse-slow">
+                        <i class="fas fa-shield-alt text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Safe & Secure</h3>
+                    <p class="text-gray-600">All drivers are verified and rides are tracked in real-time for your safety and peace of mind.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md hover-lift opacity-0" id="feature-2">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4 animate-pulse-slow">
+                        <i class="fas fa-dollar-sign text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Transparent Pricing</h3>
+                    <p class="text-gray-600">No hidden fees or surge pricing. What you see is what you pay, with detailed fare breakdowns.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md hover-lift opacity-0" id="feature-3">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4 animate-pulse-slow">
+                        <i class="fas fa-leaf text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Eco-Friendly Options</h3>
+                    <p class="text-gray-600">Choose shared rides to reduce your carbon footprint and contribute to a greener environment.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 transform transition-all duration-300 scale-90 opacity-0" id="modal-content">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-secondary text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-secondary">Booking Confirmed!</h3>
+                <p class="text-gray-600 mt-2">Your ride has been booked successfully</p>
+            </div>
+            
+            <div class="bg-gray-100 rounded-lg p-4 mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-car text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold" id="modal-ride-type">Normal Taxi</h4>
+                        <p class="text-sm text-gray-600" id="modal-vehicle-type">Standard Sedan</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex">
+                        <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Pickup</p>
+                            <p class="font-medium" id="modal-pickup">123 Main St, Anytown</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <i class="fas fa-flag-checkered text-primary mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Destination</p>
+                            <p class="font-medium" id="modal-destination">456 Oak Ave, Somewhere</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <i class="fas fa-clock text-primary mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Pickup Time</p>
+                            <p class="font-medium" id="modal-time">Today at 3:30 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="font-semibold mb-2">Driver Details</h4>
+                <div class="flex items-center">
+                    <img src="https://placehold.co/100x100/1A1A1A/CCCCCC?text=Driver" alt="Driver" class="w-12 h-12 rounded-full mr-3">
+                    <div>
+                        <p class="font-medium">John Driver</p>
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-primary text-sm"></i>
+                            <i class="fas fa-star text-primary text-sm"></i>
+                            <i class="fas fa-star text-primary text-sm"></i>
+                            <i class="fas fa-star text-primary text-sm"></i>
+                            <i class="fas fa-star-half-alt text-primary text-sm"></i>
+                            <span class="text-sm text-gray-600 ml-1">4.5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button id="view-details-btn" class="flex-1 border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-full font-medium transition">
+                    View Details
+                </button>
+                <button id="close-modal-btn" class="flex-1 bg-primary hover:bg-primaryDark text-secondary py-3 rounded-full font-medium transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="animate__animated animate__fadeInUp">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-taxi text-primary text-3xl mr-2"></i>
+                        <h3 class="text-2xl font-bold">RideShare</h3>
+                    </div>
+                    <p class="mb-4">Your reliable taxi booking service for both private and shared rides.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-primary transition hover-lift inline-block"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition hover-lift inline-block"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition hover-lift inline-block"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition hover-lift inline-block"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-primary transition">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition">About Us</a></li>
+                        <li><a href="booking.html" class="hover:text-primary transition">Book a Ride</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="booking.html" class="hover:text-primary transition">Normal Taxi</a></li>
+                        <li><a href="booking.html" class="hover:text-primary transition">Shared Taxi</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Airport Transfer</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Corporate Travel</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-primary"></i>
+                            <span>123 Taxi Street, City, Country</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-primary"></i>
+                            <span>+1 234 567 890</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-primary"></i>
+                            <span>info@rideshare.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-sm">
+                <p>&copy; 2025 RideShare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Booking Tabs
+        const tabNormal = document.getElementById('tab-normal');
+        const tabShared = document.getElementById('tab-shared');
+        const tabIndicator = document.querySelector('.tab-indicator');
+        const sharedOptions = document.getElementById('shared-options');
+        const discountRow = document.getElementById('discount-row');
+        
+        tabNormal.addEventListener('click', () => {
+            tabIndicator.style.transform = 'translateX(0)';
+            tabNormal.classList.remove('text-gray-500');
+            tabNormal.classList.add('text-secondary');
+            tabShared.classList.remove('text-secondary');
+            tabShared.classList.add('text-gray-500');
+            sharedOptions.classList.add('hidden');
+            discountRow.classList.add('hidden');
+            updateFareEstimate('normal');
+        });
+        
+        tabShared.addEventListener('click', () => {
+            tabIndicator.style.transform = 'translateX(100%)';
+            tabShared.classList.remove('text-gray-500');
+            tabShared.classList.add('text-secondary');
+            tabNormal.classList.remove('text-secondary');
+            tabNormal.classList.add('text-gray-500');
+            sharedOptions.classList.remove('hidden');
+            sharedOptions.classList.add('animate');
+            discountRow.classList.remove('hidden');
+            updateFareEstimate('shared');
+        });
+        
+        // Passenger selection
+        const passengerBtns = document.querySelectorAll('.passenger-btn');
+        
+        passengerBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                passengerBtns.forEach(b => b.classList.remove('bg-primary', 'text-secondary'));
+                btn.classList.add('bg-primary', 'text-secondary');
+            });
+        });
+        
+        // Vehicle options
+        const rideOptions = document.querySelectorAll('.ride-option');
+        
+        rideOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                rideOptions.forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                updateFareEstimate();
+            });
+        });
+        
+        // Form validation and submission
+        const bookingForm = document.getElementById('booking-form');
+        const bookingModal = document.getElementById('booking-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const viewDetailsBtn = document.getElementById('view-details-btn');
+        
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const pickup = document.getElementById('pickup').value;
+            const destination = document.getElementById('destination').value;
+            const time = document.getElementById('time').value;
+            
+            if (!pickup || !destination || !time) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Update modal content
+            document.getElementById('modal-pickup').textContent = pickup;
+            document.getElementById('modal-destination').textContent = destination;
+            
+            const dateObj = new Date(time);
+            const formattedTime = dateObj.toLocaleString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+            document.getElementById('modal-time').textContent = formattedTime;
+            
+            const isShared = !sharedOptions.classList.contains('hidden');
+            document.getElementById('modal-ride-type').textContent = isShared ? 'Shared Taxi' : 'Normal Taxi';
+            
+            // Show modal
+            bookingModal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-90', 'opacity-0');
+            }, 10);
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            modalContent.classList.add('scale-90', 'opacity-0');
+            setTimeout(() => {
+                bookingModal.classList.add('hidden');
+            }, 300);
+        });
+        
+        viewDetailsBtn.addEventListener('click', () => {
+            alert('Redirecting to booking details page...');
+            // Here you would redirect to a booking details page
+        });
+        
+        // Map preview
+        const pickupInput = document.getElementById('pickup');
+        const destinationInput = document.getElementById('destination');
+        const mapContent = document.getElementById('map-content');
+        const fareDetails = document.getElementById('fare-details');
+        const farePlaceholder = document.getElementById('fare-placeholder');
+        
+        function updateMapPreview() {
+            if (pickupInput.value && destinationInput.value) {
+                mapContent.classList.remove('hidden');
+                fareDetails.classList.remove('hidden');
+                farePlaceholder.classList.add('hidden');
+            } else {
+                mapContent.classList.add('hidden');
+                fareDetails.classList.add('hidden');
+                farePlaceholder.classList.remove('hidden');
+            }
+        }
+        
+        pickupInput.addEventListener('input', updateMapPreview);
+        destinationInput.addEventListener('input', updateMapPreview);
+        
+        // Fare estimate
+        function updateFareEstimate(rideType) {
+            const baseFare = document.getElementById('base-fare');
+            const distanceFare = document.getElementById('distance-fare');
+            const timeFare = document.getElementById('time-fare');
+            const discount = document.getElementById('discount');
+            const totalFare = document.getElementById('total-fare');
+            
+            // Simulate fare calculation
+            const baseAmount = 5.00;
+            const distanceAmount = 12.50;
+            const timeAmount = 3.75;
+            let total = baseAmount + distanceAmount + timeAmount;
+            
+            baseFare.textContent = `$${baseAmount.toFixed(2)}`;
+            distanceFare.textContent = `$${distanceAmount.toFixed(2)}`;
+            timeFare.textContent = `$${timeAmount.toFixed(2)}`;
+            
+            if (rideType === 'shared') {
+                const discountAmount = total * 0.5; // 50% discount for shared rides
+                discount.textContent = `-$${discountAmount.toFixed(2)}`;
+                total -= discountAmount;
+            }
+            
+            totalFare.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Set default date time for the pickup time input
+        const setDefaultDateTime = () => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 15); // Set default time to 15 minutes from now
+            
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            document.getElementById('time').value = defaultDateTime;
+        };
+        
+        setDefaultDateTime();
+        
+        // Animate features on scroll
+        function animateFeatures() {
+            const features = [
+                document.getElementById('feature-1'),
+                document.getElementById('feature-2'),
+                document.getElementById('feature-3')
+            ];
+            
+            features.forEach((feature, index) => {
+                if (isElementInViewport(feature) && feature.style.opacity !== '1') {
+                    feature.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    feature.style.opacity = '1';
+                    feature.style.transitionDelay = `${0.2 * (index + 1)}s`;
+                }
+            });
+        }
+        
+        // Check if element is in viewport
+        function isElementInViewport(el) {
+            if (!el) return false;
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                rect.bottom >= 0
+            );
+        }
+        
+        // Initialize animations
+        window.addEventListener('load', () => {
+            animateFeatures();
+        });
+        
+        window.addEventListener('scroll', () => {
+            animateFeatures();
+        });
+    </script>
+</body>
+</html>
