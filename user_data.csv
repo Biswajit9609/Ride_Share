@@ -1,7 +1,0 @@
-,first_name,last_name,password,email,lat,long,flat,flong,no_of_person,booking_status
-0,user1,last1,321,user1@example.com,22.568668,88.483446,22.580469,88.415005,1,pending
-1,user2,last2,321,user2@example.com,22.552914,88.473345,22.572208,88.412376,3,pending
-2,user3,last3,321,user3@exampl.com,22.592111,88.432317,22.562208,88.402376,4,pending
-3,user4,last4,321,user4@example.com,22.592,88.458111,22.552208,88.392376,2,pending
-4,user5,last5,321,user5@example.com,22.46,88.22,22.542208,88.382376,2,pending
-5,user6,last6,321,user6@example.com,22.46,88.220032,22.532208,88.372376,1,pending
